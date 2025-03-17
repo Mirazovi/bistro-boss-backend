@@ -129,6 +129,13 @@ async function run() {
       const result = await menusCollection.find().toArray();
       res.send(result)
     })
+          // update menus 
+    app.get('/menus/:id',async(req,res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await menusCollection.find(query)
+      res.send(result);
+    })
     app.delete('/menus/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }
@@ -155,7 +162,15 @@ async function run() {
     })
 
 
+      // Admin Status 
 
+      app.get('/admin-stats',async(req,res)=>{
+        const user = await usersCollection.estimatedDocumentCount();
+
+        res.send({
+          user
+        })
+      })
 
 
     // Send a ping to confirm a successful connection
